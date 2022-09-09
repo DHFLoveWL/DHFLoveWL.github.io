@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  <meta name="keywords" content="热爱生活，we are family">
+  
+  
+  <meta name="description" content="我们生活在阴沟里，但有人依然仰望星空。">
+  
+  <title>
+    multiple_flutters加入iOS客户端 |
+    
+    潜水的鱼的博客
+  </title>
+  <!-- Icon -->
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-多个flutter module加载到客户端" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+  
+  <h1 class="article-title" itemprop="name">
+    multiple_flutters加入iOS客户端
+  </h1>
+  
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/09/09/%E5%A4%9A%E4%B8%AAflutter%20module%E5%8A%A0%E8%BD%BD%E5%88%B0%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="article-date">
+  <time datetime="2022-09-08T16:00:00.000Z" itemprop="datePublished">2022-09-09</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/Flutter/">Flutter</a>
+</div>
+
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+        <p>本文主要介绍：多flutter模块嵌入原生的方式，flutter 作为模块嵌入iOS工程或者android工程。我们可以参考下官方文档， <code>FlutterEngine</code> 充当 Dart VM 和 Flutter 运行时的主机； <code>FlutterViewController</code> 依附于 <code>FlutterEngine</code>，给 Flutter 传递 UIKit 的输入事件，并展示被 <code>FlutterEngine</code> 渲染的每一帧画面。</p>
+<span id="more"></span>
+
+
+<h2 id="1-FlutterEngine"><a href="#1-FlutterEngine" class="headerlink" title="1. FlutterEngine"></a>1. FlutterEngine</h2><p> flutter 作为模块嵌入iOS工程或者android工程。我们可以参考下官方文档， <code>FlutterEngine</code> 充当 Dart VM 和 Flutter 运行时的主机； <code>FlutterViewController</code> 依附于 <code>FlutterEngine</code>，给 Flutter 传递 UIKit 的输入事件，并展示被 <code>FlutterEngine</code> 渲染的每一帧画面。</p>
+<p>  <a target="_blank" rel="noopener" href="https://api.flutter-io.cn/objcdoc/Classes/FlutterEngine.html#/c:objc(cs)FlutterEngine(im)runWithEntrypoint:libraryURI:">FlutterEngine</a>文档</p>
+<p>创建FlutterEngine：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">UIKit</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Flutter</span></span><br><span class="line"><span class="comment">// Used to connect plugins (only if you have plugins with iOS platform code).</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">FlutterPluginRegistrant</span></span><br><span class="line"></span><br><span class="line">@<span class="title class_">UIApplicationMain</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AppDelegate</span>: <span class="title class_">FlutterAppDelegate</span> &#123; <span class="comment">// More on the FlutterAppDelegate.</span></span><br><span class="line">  lazy <span class="keyword">var</span> flutterEngine = <span class="title class_">FlutterEngine</span>(<span class="attr">name</span>: <span class="string">&quot;my flutter engine&quot;</span>)</span><br><span class="line"></span><br><span class="line">  override func <span class="title function_">application</span>(_ <span class="attr">application</span>: <span class="title class_">UIApplication</span>, didFinishLaunchingWithOptions <span class="attr">launchOptions</span>: [<span class="title class_">UIApplication</span>.<span class="property">LaunchOptionsKey</span>: <span class="title class_">Any</span>]?) -&gt; <span class="title class_">Bool</span> &#123;</span><br><span class="line">    <span class="comment">// Runs the default Dart entrypoint with a default Flutter route.</span></span><br><span class="line">    flutterEngine.<span class="title function_">run</span>();</span><br><span class="line">    <span class="comment">// Used to connect plugins (only if you have plugins with iOS platform code).</span></span><br><span class="line">    <span class="title class_">GeneratedPluginRegistrant</span>.<span class="title function_">register</span>(<span class="attr">with</span>: self.<span class="property">flutterEngine</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">super</span>.<span class="title function_">application</span>(application, <span class="attr">didFinishLaunchingWithOptions</span>: launchOptions);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<pre><code>   let flutterEngine = (UIApplication.shared.delegate as! AppDelegate).flutterEngine
+   let flutterViewController =
+        FlutterViewController(engine: flutterEngine, nibName: nil, bundle: nil)
+    present(flutterViewController, animated: true, completion: nil)
+</code></pre>
+<h2 id="2-加载多个modules"><a href="#2-加载多个modules" class="headerlink" title="2. 加载多个modules"></a>2. 加载多个modules</h2><p>我们想要加载多个modules的时候，尝试使用在podfile文件中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">flutter_application_path = <span class="string">&#x27;../../mall/mall_flutter_module&#x27;</span></span><br><span class="line"></span><br><span class="line">flutter_application_path1 = <span class="string">&#x27;../../testModule&#x27;</span></span><br><span class="line"></span><br><span class="line">load <span class="title class_">File</span>.<span class="title function_">join</span>(flutter_application_path,<span class="string">&#x27;.ios&#x27;</span>,<span class="string">&#x27;Flutter&#x27;</span>,<span class="string">&#x27;podhelper.rb&#x27;</span>)</span><br><span class="line">load <span class="title class_">File</span>.<span class="title function_">join</span>(flutter_application_path1,<span class="string">&#x27;.ios&#x27;</span>,<span class="string">&#x27;Flutter&#x27;</span>,<span class="string">&#x27;podhelper.rb&#x27;</span>)</span><br><span class="line"></span><br><span class="line">target <span class="string">&#x27;xxx&#x27;</span> <span class="keyword">do</span></span><br><span class="line"><span class="title function_">install_all_flutter_pods</span>(flutter_application_path)</span><br><span class="line"><span class="title function_">install_all_flutter_pods</span>(flutter_application_path1)</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>pod install</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1a1a8458cf0e41bd928ccb600bb978af~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>报错，已经导入了,之后我尝试使用数组的形式inatll，也是无法install，之后进行下图操作</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e87cc0d8dd1c4d2d8cd195f85a30dd49~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>覆盖了之前的mallModul</p>
+<ul>
+<li><p>手动添加<br>我们添加flutter Module的时候也有手动的效果</p>
+<p>  flutter build ios-framework –output&#x3D;some&#x2F;path&#x2F;MyApp&#x2F;Flutter&#x2F;</p>
+</li>
+</ul>
+<p>效果</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">some/path/<span class="title class_">MyApp</span>/</span><br><span class="line">└── <span class="title class_">Flutter</span>/</span><br><span class="line">    ├── <span class="title class_">Debug</span>/</span><br><span class="line">    │   ├── <span class="title class_">Flutter</span>.<span class="property">xcframework</span></span><br><span class="line">    │   ├── <span class="title class_">App</span>.<span class="property">xcframework</span></span><br><span class="line">    │   ├── <span class="title class_">FlutterPluginRegistrant</span>.<span class="property">xcframework</span> (only <span class="keyword">if</span> you have plugins <span class="keyword">with</span> iOS platform code)</span><br><span class="line">    │   └── example_plugin.<span class="property">xcframework</span> (each plugin is a separate framework)</span><br><span class="line">    ├── <span class="title class_">Profile</span>/</span><br><span class="line">    │   ├── <span class="title class_">Flutter</span>.<span class="property">xcframework</span></span><br><span class="line">    │   ├── <span class="title class_">App</span>.<span class="property">xcframework</span></span><br><span class="line">    │   ├── <span class="title class_">FlutterPluginRegistrant</span>.<span class="property">xcframework</span></span><br><span class="line">    │   └── example_plugin.<span class="property">xcframework</span></span><br><span class="line">    └── <span class="title class_">Release</span>/</span><br><span class="line">        ├── <span class="title class_">Flutter</span>.<span class="property">xcframework</span></span><br><span class="line">        ├── <span class="title class_">App</span>.<span class="property">xcframework</span></span><br><span class="line">        ├── <span class="title class_">FlutterPluginRegistrant</span>.<span class="property">xcframework</span></span><br><span class="line">        └── example_plugin.<span class="property">xcframework</span></span><br></pre></td></tr></table></figure>
+
+<p>始终使用相同目录下的 <code>Flutter.framework</code> 和 <code>App.framework</code>。混合使用不同目录（例如 <code>Profile/Flutter.framework</code> 以及 <code>Debug/App.framework</code>）将会导致运行失败。</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7cd92c2d7c64965bfa82556d76ec4fa~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>Xcode工程添加</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/54efde9fe1ff47c88711f7681f33bec7~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>不论是使用framework还是pods导入，实际上是导入上面的2个framework，包含flutter环境和app实际的代码</p>
+<h2 id="3-解决方式"><a href="#3-解决方式" class="headerlink" title="3. 解决方式"></a>3. 解决方式</h2><p>最后，与我的同事讨论了所有这些，他们建议尝试将所有模块导入一个类似伞的项目中，然后导入到本机应用程序中。因此，我尝试将这两个模块作为第三个模块的包导入，这里称为<code>umbrella</code>：</p>
+<p><code>umbrella/pubspec.yaml</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dependencies</span>:</span><br><span class="line">  <span class="attr">flutter</span>:</span><br><span class="line">    <span class="attr">sdk</span>: flutter</span><br><span class="line">  <span class="attr">cupertino_icons</span>: ^<span class="number">0.1</span><span class="number">.2</span></span><br><span class="line">  <span class="attr">login</span>:</span><br><span class="line">    <span class="attr">path</span>: ../flutter_modules/login</span><br><span class="line">  <span class="attr">register</span>:</span><br><span class="line">    <span class="attr">path</span>: ../flutter_modules/register</span><br></pre></td></tr></table></figure>
+
+<p>那行得通，但是您必须在模块中创建路由<code>umbrella</code>以映射<code>login</code>和<code>register</code>小部件。</p>
+<p>因此需要使用一个胶水项目，来管理这些module</p>
+<p>创建一个胶水项目</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">main</span>() =&gt; <span class="title function_">runApp</span>(<span class="title class_">UmbrellaApp</span>(<span class="attr">route</span>: <span class="variable language_">window</span>.<span class="property">defaultRouteName</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UmbrellaApp</span> <span class="keyword">extends</span> <span class="title class_ inherited__">StatelessWidget</span> &#123;</span><br><span class="line">  final <span class="title class_">String</span> route;</span><br><span class="line"></span><br><span class="line">  <span class="title class_">UmbrellaApp</span>(<span class="variable language_">this</span>.<span class="property">route</span>);</span><br><span class="line"></span><br><span class="line">  @override</span><br><span class="line">  <span class="title class_">Widget</span> <span class="title function_">build</span>(<span class="params">BuildContext context</span>) &#123;</span><br><span class="line">    <span class="keyword">switch</span> (route) &#123;</span><br><span class="line">      <span class="comment">// UmbrellaModule is class holding static strings.</span></span><br><span class="line">      <span class="keyword">case</span> <span class="title class_">UmbrellaModules</span>.<span class="property">login</span>:  <span class="comment">// UmbrellaModules.login = &#x27;login_module&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="title class_">LoginModule</span>();</span><br><span class="line">      <span class="keyword">case</span> <span class="title class_">UmbrellaModules</span>.<span class="property">register</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="title class_">RegisterModule</span>();</span><br><span class="line">      <span class="attr">default</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="title class_">ErrorRoute</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>iOS 原生应用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> flutterViewController = <span class="title class_">UmbrellaViewController</span>()</span><br><span class="line">flutterViewController.<span class="title function_">setInitialRoute</span>(<span class="string">&quot;oobe_module&quot;</span>)</span><br><span class="line">self.<span class="title function_">present</span>(flutterViewController, <span class="attr">animated</span>: <span class="literal">false</span>, <span class="attr">completion</span>: nil)</span><br><span class="line"><span class="comment">// UmbrellaViewController</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UmbrellaViewController</span>: <span class="title class_">FlutterViewController</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-优化"><a href="#4-优化" class="headerlink" title="4.优化"></a>4.优化</h2><p>在 <code>FlutterEngine</code> 上调用 <code>run</code>，默认将会调用你的 <code>lib/main.dart</code> 文件里的 <code>main()</code> 函数。  </p>
+<p>你也可以使用另一个入口方法 <a target="_blank" rel="noopener" href="https://api.flutter-io.cn/objcdoc/Classes/FlutterEngine.html#/c:objc(cs)FlutterEngine(im)runWithEntrypoint:"><code>runWithEntrypoint</code></a>，并使用 <code>NSString</code> 字符串指定一个不同的 Dart 入口。</p>
+<blockquote>
+<p>使用 <code>main()</code> 以外的 Dart 入口函数，必须使用下面的注解，防止被 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Tree_shaking">tree-shaken</a> 优化掉，而没有编译。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@<span class="title function_">pragma</span>(<span class="string">&#x27;vm:entry-point&#x27;</span>)</span><br><span class="line"><span class="keyword">void</span> <span class="title function_">myOtherEntrypoint</span>(<span class="params"></span>) &#123; ... &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>另外，在指定 Dart 函数时，你可以指定特定文件的特定函数。</p>
+<p>下面的例子使用 <code>lib/other_file.dart</code> 文件的 <code>myOtherEntrypoint()</code> 函数取代 <code>lib/main.dart</code> 的 <code>main()</code> 函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutterEngine.<span class="title function_">run</span>(<span class="attr">withEntrypoint</span>: <span class="string">&quot;myOtherEntrypoint&quot;</span>, <span class="attr">libraryURI</span>: <span class="string">&quot;other_file.dart&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>但是报错</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**<span class="title class_">Dart</span> <span class="title class_">Error</span>: <span class="title class_">Dart</span><span class="attr">_LookupLibrary</span>: library <span class="string">&#x27;other_file.dart&#x27;</span> not found.**</span><br></pre></td></tr></table></figure>
+
+<p>我们看<a target="_blank" rel="noopener" href="https://github.com/flutter/engine/blob/279e3af0a1c8f19286dded8aabbfbf752c2a55fe/shell/platform/darwin/ios/framework/Headers/FlutterEngine.h#L222-L224">官方注释</a><br><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/64a36f48a3e34cd28d35b3fc3906c34f~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutterEngine.<span class="title function_">run</span>(<span class="attr">withEntrypoint</span>: entryPoint, <span class="attr">libraryURI</span>: <span class="string">&quot;:package:multiple_flutters_module/other_file.dart&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>但是还是有点问题</p>
+<blockquote>
+<p><strong>2022-09-08 16:20:48.674755+0800 MultipleFluttersIos[17128:42337128][verbose-2:shell.cc(93)] Dart Error: Dart_LookupLibrary: library ‘:package:multiple_flutters_module&#x2F;other_file.dart’ not found.</strong></p>
+</blockquote>
+<p>最终我们使用在main函数中执行不同的入口</p>
+<pre><code>void main() =&gt; runApp(const MyApp(color: Colors.blue));
+
+@pragma(&#39;vm:entry-point&#39;)
+void topMain() =&gt; runApp(const MyApp(color: Colors.green));
+
+@pragma(&#39;vm:entry-point&#39;)
+void bottomMain() =&gt; runApp(const MyApp(color: Colors.purple));
+</code></pre>
+<p>在 Android 和 iOS 上添加多个 Flutter 实例的主要 API 是基于新的 <code>FlutterEngineGroup</code> 类 (<a target="_blank" rel="noopener" href="https://cs.opensource.google/flutter/engine/+/master:shell/platform/android/io/flutter/embedding/engine/FlutterEngineGroup.java">Android API</a>, <a target="_blank" rel="noopener" href="https://cs.opensource.google/flutter/engine/+/master:shell/platform/darwin/ios/framework/Headers/FlutterEngineGroup.h">iOS API</a>) 来创建 <code>FlutterEngine</code> 的，而不是通过以前的 <code>FlutterEngine</code> 构造。</p>
+<p>尽管 <code>FlutterEngine</code> API 的用法简洁明了，但从 <code>FlutterEngineGroup</code> 生成的 <code>FlutterEngine</code> 具有常用共享资源（例如 GPU 上下文、字体度量和隔离线程的快照）的性能优势，从而加快首次渲染的速度、降低延迟并降低内存占用。</p>
+<ul>
+<li><p>由 <code>FlutterEngineGroup</code> 生成的 <code>FlutterEngine</code> 可以用来关联 UI 相关的类，例如 <a target="_blank" rel="noopener" href="https://api.flutter-io.cn/javadoc/io/flutter/embedding/android/FlutterActivity.html"><code>FlutterActivity</code></a> 或 <a target="_blank" rel="noopener" href="https://api.flutter-io.cn/objcdoc/Classes/FlutterViewController.html"><code>FlutterViewController</code></a>，与通常构造缓存的 <code>FlutterEngine</code> 类似。</p>
+</li>
+<li><p>第一个 <code>FlutterEngineGroup</code> 生成的 <code>FlutterEngine</code> 不需要持续保活，只要有 1 个可用的 <code>FlutterEngine</code>，就可以随时在各个 <code>FlutterEngine</code> 之间共享资源。</p>
+</li>
+<li><p>通过 <code>FlutterEngineGroup</code> 生成的首个 <code>FlutterEngine</code> 与使用先前的构造方法构造的 <code>FlutterEngine</code> 有相同的<a target="_blank" rel="noopener" href="https://flutter.cn/docs/development/add-to-app/performance">性能特征</a>。</p>
+</li>
+<li><p>当所有由 <code>FlutterEngineGroup</code> 构造的 <code>FlutterEngine</code> 都被销毁后，下一个创建的 <code>FlutterEngine</code> 与首个创造的性能特征相同。</p>
+</li>
+<li><p><code>FlutterEngineGroup</code> 本身不需要持续保活。将其销毁后，已生成的 <code>FlutterEngine</code> 不受影响，但无法继续在现有共享的基础上创建新引擎。</p>
+</li>
+</ul>
+<p>在delegate</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> engines = <span class="title class_">FlutterEngineGroup</span>(<span class="attr">name</span>: <span class="string">&quot;multiple-flutters&quot;</span>, <span class="attr">project</span>: nil)</span><br></pre></td></tr></table></figure>
+
+<p>初始化</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">SingleFlutterViewController</span>: <span class="title class_">FlutterViewController</span> &#123;</span><br><span class="line"></span><br><span class="line">  private <span class="keyword">var</span> <span class="attr">channel</span>: <span class="title class_">FlutterMethodChannel</span>?</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="title function_">init</span>(<span class="params">withEntrypoint entryPoint: <span class="built_in">String</span>?</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="attr">appDelegate</span>: <span class="title class_">AppDelegate</span> = <span class="title class_">UIApplication</span>.<span class="property">shared</span>.<span class="property">delegate</span> <span class="keyword">as</span>! <span class="title class_">AppDelegate</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> newEngine = appDelegate.<span class="property">engines</span>.<span class="title function_">makeEngine</span>(<span class="attr">withEntrypoint</span>: entryPoint, <span class="attr">libraryURI</span>:nil)</span><br><span class="line"></span><br><span class="line">    <span class="title class_">GeneratedPluginRegistrant</span>.<span class="title function_">register</span>(<span class="attr">with</span>: newEngine)</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">super</span>.<span class="title function_">init</span>(<span class="attr">engine</span>: newEngine, <span class="attr">nibName</span>: nil, <span class="attr">bundle</span>: nil)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a32d0441ed6b4c0297ce02b6aabc178a~tplv-k3u1fbpfcp-watermark.image" alt="multiple-flutters-sample.gif"></p>
+<h2 id="5-实际中的表现"><a href="#5-实际中的表现" class="headerlink" title="5 实际中的表现"></a>5 实际中的表现</h2><p>展示flutter商城，并随意点击</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7d6fb30446d647f8858a869171c30935~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>最终稳定在430左右，最高441</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4f62c96a3c684e20b414a64d424858b2~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>初始化<code>Engine</code>，不展示flutter商城页面</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7fc6fe09e244781b3a3e69a27126220~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>首页正常使用后增加内存</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aa57434cedce4fc2bf465bf7612626d5~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>使用<code>FlutterEngineGroup</code>加载测试模块</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6253d252841148e5b13e4ca5decc7e00~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>使用group 加载模块2</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/abd20ea8a86f4be8bde4acb90c84295d~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>打开商城使用独立的<code>Engine</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">FlutterEngine</span>(<span class="attr">name</span>: <span class="string">&quot;io.flutter&quot;</span>, <span class="attr">project</span>: nil)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a8c9022cb0db4ea886ce80c1c9e5f965~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>内存使用情况会变大，此时内存中加载了2个<code>Engine</code>，3个渲染的<code>FlutterViewController</code></p>
+<p>模块全部使用group</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8d92c56c81ad423a9800041a537cc444~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>切换模块一</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ed11268a82f84332a3ae90b0573c087b~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>切换模块三</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7d6c8d17ed0a44db88b59c69ccc9b219~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>没有明显的增加，因为flutter模块共用了一个渲染引擎，减少了内存压力，同时也方便处理以前的模块和新模块的关系。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/09/09/%E5%A4%9A%E4%B8%AAflutter%20module%E5%8A%A0%E8%BD%BD%E5%88%B0%E5%AE%A2%E6%88%B7%E7%AB%AF/" data-id="cl7ub3hyi00076rbc3gal19kt" class="article-share-link">
+        分享
+      </a>
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FlutterEngine/" rel="tag">FlutterEngine</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="tag">中间件</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%9A%E6%A8%A1%E5%9D%97/" rel="tag">多模块</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%87%E6%A1%A3/" rel="tag">文档</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  
+  <a href="/2022/09/05/hello-world/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">Hello World</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>潜水的鱼的博客 &copy; 2022</li>
+      
+        <li>
+          
+            <a href="https://beian.miit.gov.cn/" target="_blank"></a>
+            
+        </li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>theme  <a target="_blank" rel="noopener" href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+    <p><ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt tooltip" data-tooltip="UV"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark tooltip" data-tooltip="PV"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul></p>
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="潜水的鱼的博客"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">Home</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">About</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="fe fe-feed"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  <meta name="keywords" content="热爱生活，we are family">
+  
+  
+  <meta name="description" content="我们生活在阴沟里，但有人依然仰望星空。">
+  
+  <title>
+    flutter介绍 |
+    
+    潜水的鱼的博客
+  </title>
+  <!-- Icon -->
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-Flutter模板调研报告" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+  
+  <h1 class="article-title" itemprop="name">
+    flutter介绍
+  </h1>
+  
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/06/02/Flutter%E6%A8%A1%E6%9D%BF%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/" class="article-date">
+  <time datetime="2022-06-02T01:21:29.319Z" itemprop="datePublished">2022-06-02</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/%E6%96%87%E7%AB%A0%E5%88%86%E7%B1%BB/">文章分类</a>
+</div>
+
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+        <p>在<code>&lt;!-- more --&gt;</code>之前编写文章的摘要内容！！！</p>
+<span id="more"></span>
+
+<p>在<code>&lt;!-- more --&gt;</code>之后编写文章的正式内容！！！</p>
+<h1 id="1-flutter创建组件的意义和必然性"><a href="#1-flutter创建组件的意义和必然性" class="headerlink" title="1. flutter创建组件的意义和必然性"></a>1. flutter创建组件的意义和必然性</h1><h2 id="1-1-flutter介绍"><a href="#1-1-flutter介绍" class="headerlink" title="1.1 flutter介绍"></a>1.1 flutter介绍</h2><p>Flutter一个移动端的 UI 框架，它使 UI 开发变得更有趣、快速和简单。Flutter组件采用现代响应式框架构建，中心思想是用组件(widget)构建你的UI。组件描述了在给定其当前配置和状态时他们显示的样子。当组件状态改变，组件会重构它的描述(description)，Flutter 会对比之前的描述， 以确定底层渲染树从当前状态转换到下一个状态所需要的最小更改。  </p>
+<h2 id="1-2-flutter的优势"><a href="#1-2-flutter的优势" class="headerlink" title="1.2 flutter的优势"></a>1.2 flutter的优势</h2><p>flutter是goole公司推出的，Flutter 为应用开发带来了革新，可以交付的更多、更快：一套代码库，六个目标平台.  </p>
+<ol>
+<li><strong>提高生产力</strong>：功能发布更快，代码编写更少，一次兼顾多个平台。</li>
+<li><strong>原生性能</strong>：编译为本地机器代码，为应用的流畅度和优美的动画效果助力。</li>
+<li><strong>开源协作</strong>：开放、透明、可靠，由 Google 支持，受到全球贡献者和社区的信任。</li>
+</ol>
+<h1 id="2-Flutter整体架构介绍"><a href="#2-Flutter整体架构介绍" class="headerlink" title="2. Flutter整体架构介绍"></a>2. Flutter整体架构介绍</h1><p>Flutter 被设计为一个可扩展的分层系统。它可以被看作是各个独立的组件的系列合集，上层组件各自依赖下层组件。组件无法越权访问更底层的内容，并且框架层中的各个部分都是可选且可替代的。<br>Flutter的架构主要分成三层: Framework（Dart），Engine（C&#x2F;C++）和 Embedder （platform-specific）。</p>
+<h2 id="2-1-Framework"><a href="#2-1-Framework" class="headerlink" title="2.1 Framework"></a>2.1 Framework</h2><p>Framework 使用 dart 实现，包括 Material Design 风格的Widget，Cupertino(针对iOS)风格的Widgets，UI&#x2F;文本&#x2F;图片&#x2F;按钮等基础 Widgets，渲染，动画，手势等。此部分的核心代码是: flutter 仓库下的flutter package，以及 sky_engine 仓库下的 io, async, ui (dart:ui 库提供了 Flutter 框架和引擎之间的接口)等package。</p>
+<h2 id="2-2-Engine"><a href="#2-2-Engine" class="headerlink" title="2.2 Engine"></a>2.2 Engine</h2><p>Engine使用C++实现，主要包括: Skia, Dart 和 Text。</p>
+<p>Skia是开源的二维图形库，提供了适用于多种软硬件平台的通用API。其已作为Google Chrome，Chrome OS，Android, Mozilla Firefox, Firefox OS等其他众多产品的图形引擎，支持平台还包括Windows, macOS, iOS，Android，Ubuntu等。</p>
+<p>Dart 部分主要包括:Dart Runtime，Garbage Collection(GC)，如果是Debug模式的话，还包括JIT(Just In Time)支持。Release和Profile模式下，是AOT(Ahead Of Time)编译成了原生的arm代码，并不存在JIT部分。</p>
+<p>Text 即文本渲染，其渲染层次如下:衍生自 Minikin 的 libtxt 库(用于字体选择，分隔行)；HartBuzz用于字形选择和成型；Skia作为渲染&#x2F;GPU后端，在Android和Fuchsia上使用FreeType渲染，在iOS上使用CoreGraphics来渲染字体。</p>
+<h2 id="2-3-Embedder"><a href="#2-3-Embedder" class="headerlink" title="2.3 Embedder"></a>2.3 Embedder</h2><p>Embedder 是一个嵌入层，即把 Flutter 嵌入到各个平台上去，这里做的主要工作包括渲染 Surface 设置,线程设置，以及插件等。从这里可以看出，Flutter 的平台相关层很低，平台(如iOS)只是提供一个画布，剩余的所有渲染相关的逻辑都在Flutter内部，这就使得它具有了很好的跨端一致性。</p>
+<h2 id="2-4-小结"><a href="#2-4-小结" class="headerlink" title="2.4 小结"></a>2.4 小结</h2><p>从架构可以看出，Flutter 从头到尾重写一套跨平台的UI框架，包括UI控件、渲染逻辑甚至开发语言。渲染引擎依靠跨平台的Skia图形库来实现，依赖系统的只有图形绘制相关的接口，可以在最大程度上保证不同平台、不同设备的体验一致性，逻辑处理使用支持AOT的Dart语言，执行效率也比JavaScript高得多。</p>
+<p>对底层操作系统而言，Flutter应用程序与其他本地应用程序一样，以相同的方式进行打包。一个平台特定的嵌入器提供了一个入口点；与底层操作系统协调，以访问服务，如渲染表面、可访问性和输入；并管理消息事件循环。嵌入器是用适合平台的语言编写的：目前 Android 的 Java 和 C++，iOS 和 macOS 的 Objective-C&#x2F;Objective-C++，Windows 和 Linux 的 C++。使用嵌入器，Flutter 代码可以作为一个模块集成到现有的应用程序中，也可以是应用程序的全部内容。Flutter 包含了许多针对常见目标平台的嵌入器，但也存在其他嵌入器。</p>
+<h1 id="3-Flutter路由，widget设计"><a href="#3-Flutter路由，widget设计" class="headerlink" title="3. Flutter路由，widget设计"></a>3. Flutter路由，widget设计</h1><p>这里以之前商城项目为例，首先介绍下项目整体的架构<br><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c6c50bbd6e4646d19543df64a11e7a51~tplv-k3u1fbpfcp-watermark.image" alt="image.png"><br>主要大的方便分为代码区lib，资源区，三方组件管理区。</p>
+<h2 id="3-1-路由"><a href="#3-1-路由" class="headerlink" title="3.1 路由"></a>3.1 路由</h2><p>大多数应用程序具有多个页面或视图，并且希望将用户从页面平滑过渡到另一个页面。Flutter的路由和导航功能可帮助您管理应用中屏幕之间的命名和过渡。<br>在Flutter里，把界面称作为一个个Route，他们的跳转是通过一个叫做路由管理（Navigator）的工具，负责页面之间的跳转，包括参数的传递接受和返回。Navigator的方法总的来说就两个，push（进栈），pop（出栈），跟Activity一样也会生成一个存放页面的栈。  </p>
+<ul>
+<li>普通路由</li>
+</ul>
+<p>通过MaterialPageRoute进行跳转    </p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">TextButton(</span><br><span class="line">  child: <span class="keyword">const</span> Text(<span class="string">&quot;通过实例跳转&quot;</span>),</span><br><span class="line">  onPressed: ()  &#123;</span><br><span class="line">   Navigator.push(context,</span><br><span class="line">        MaterialPageRoute(builder: (context) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">const</span> TwoPageRoute();</span><br><span class="line">    &#125;));</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>我们也可以添加参数进行跳转也是类似的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">TextButton(</span><br><span class="line">  child: const Text(&quot;通过实例跳转&quot;),</span><br><span class="line">  onPressed: ()  &#123;</span><br><span class="line">   Navigator.push(context,</span><br><span class="line">        MaterialPageRoute(builder: (context) &#123;</span><br><span class="line">      return TwoPageRoute(</span><br><span class="line">          text: &quot;我是第一个页面&quot;, userBean: UserBean(&quot;小小虫&quot;, 18));</span><br><span class="line">    &#125;));</span><br><span class="line">  &#125;,</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>除了上述方法外，还可以通过路由命名跳转</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">void main() &#123;</span><br><span class="line">  runApp(const MyApp());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class MyApp extends StatelessWidget &#123;</span><br><span class="line">  const MyApp(&#123;Key? key&#125;) : super(key: key);</span><br><span class="line"></span><br><span class="line">  @override</span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    return MaterialApp(</span><br><span class="line">      title: &#x27;Flutter Demo&#x27;,</span><br><span class="line">      theme: ThemeData(</span><br><span class="line">        primarySwatch: Colors.blue,</span><br><span class="line">      ),</span><br><span class="line">      home: const MyHomePage(title: &#x27;Flutter Demo Home Page&#x27;),</span><br><span class="line">      //注册路由表</span><br><span class="line">      routes: &#123;</span><br><span class="line">        &quot;custom_page&quot;: (context) =&gt;  const CustomRoute(),</span><br><span class="line">      &#125;,</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>跳转，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">TextButton(</span><br><span class="line">  child: const Text(&quot;通过自定义命名路由跳转&quot;),</span><br><span class="line">  onPressed: () async &#123;</span><br><span class="line">    var result = await Navigator.pushNamed(context, &quot;custom_page&quot;,</span><br><span class="line">        arguments: &quot;hello,我是通过自定义命名路由跳转&quot;);</span><br><span class="line">    print(&quot;通过自定义命名路由跳转路由返回值: $result&quot;);</span><br><span class="line">  &#125;,</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们在跳转页面的build中获取参数，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@override</span><br><span class="line">Widget build(BuildContext context) &#123;</span><br><span class="line">  //获取路由参数</span><br><span class="line">  var args=ModalRoute.of(context)?.settings.arguments;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>统一处理</li>
+</ul>
+<p>在我们实际开发中通常会使用文件来定义我们的页面跳转，以及参数传递<br><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b86502d94b80451fb2c9193c20dce977~tplv-k3u1fbpfcp-watermark.image" alt="image.png"><br>我们在初始化的时候配置跳转</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Route&lt;dynamic&gt;? onGenerateRoute(RouteSettings settings) &#123;</span><br><span class="line">  if (settings.name == Routes.root &amp;&amp; settings.arguments == null) &#123;</span><br><span class="line">    return router.generator(RouteSettings(name: settings.name, arguments: LoginManager.shared.loginInfo!.data));</span><br><span class="line">  &#125;</span><br><span class="line">  return router.generator(settings);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们也可以使用一些三方的组件配合使用，比如使用&#x3D;&#x3D;GetX&#x3D;&#x3D;，</p>
+<blockquote>
+<p>GetX 是一个轻量且强大的解决方案，拥有高性能的状态管理、智能的依赖注入以及便捷的路由管理。</p>
+</blockquote>
+<h2 id="3-2-Widget设计"><a href="#3-2-Widget设计" class="headerlink" title="3.2 Widget设计"></a>3.2 Widget设计</h2><p>对于一些组件我们提供一些核心组件的说明和使用，或者配合我们目前的一些UI，自定义生成相对应的组件。</p>
+<h1 id="4-Flutter在iOS和安卓中原生交互"><a href="#4-Flutter在iOS和安卓中原生交互" class="headerlink" title="4. Flutter在iOS和安卓中原生交互"></a>4. Flutter在iOS和安卓中原生交互</h1><p>这里主要用到：MethodChannel，<br>￼<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1fdbafc0ed474e6ebac016ffb4b232a4~tplv-k3u1fbpfcp-watermark.image" alt="Pasted Graphic.png"><br>这里分别使用安卓和iOS为例子进行介绍，我们交互主要实现：  </p>
+<ol>
+<li>flutter能够调用原生的控件，flutter能够传递参数给原生；  </li>
+<li>原生(安卓、iOS)能够返回参数给flutter在flutter中使用。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//定义</span></span><br><span class="line">final <span class="title class_">MethodChannel</span> _methodChannel </span><br><span class="line">  = <span class="keyword">const</span> <span class="title class_">MethodChannel</span>(<span class="string">&#x27;minePage/method&#x27;</span>);</span><br><span class="line"> <span class="comment">//回调</span></span><br><span class="line">   <span class="keyword">if</span> (call.<span class="property">method</span> == <span class="string">&#x27;imagePath&#x27;</span>) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="title class_">String</span> imagePath = call.<span class="property">arguments</span>.<span class="title function_">toString</span>().<span class="title function_">substring</span>(<span class="number">7</span>);</span><br><span class="line">        <span class="title function_">print</span>(call.<span class="property">arguments</span>);</span><br><span class="line">        <span class="title function_">print</span>(imagePath);</span><br><span class="line">        <span class="title function_">setState</span>(() &#123;</span><br><span class="line">          _avatarFile = <span class="title class_">File</span>(imagePath);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"> <span class="comment">//调用</span></span><br><span class="line"> _methodChannel.<span class="title function_">invokeListMethod</span>(<span class="string">&#x27;pictureMethod&#x27;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其实和我们js调用原生类似，我们创建MethodChannel方法通道，注册方法，之后进行调用invoke，原生的回调callback。</p>
+<h2 id="4-1-iOS交互说明"><a href="#4-1-iOS交互说明" class="headerlink" title="4.1 iOS交互说明"></a>4.1 iOS交互说明</h2><p>flutter中注册方法后，我们看下在iOS怎么做，这里以调用调用系统相册为例<br>打开iOS工程，在AppDelegate中方法   </p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">vc <span class="operator">=</span>  <span class="keyword">self</span>.window.rootViewController <span class="keyword">as?</span> <span class="type">FlutterViewController</span>;<span class="comment">//fluttevc</span></span><br><span class="line">      </span><br><span class="line">      metodChannel <span class="operator">=</span>  <span class="type">FlutterMethodChannel</span>.<span class="keyword">init</span>(name: <span class="string">&quot;minePage/method&quot;</span>, binaryMessenger: <span class="keyword">self</span>.vc<span class="operator">!</span>.binaryMessenger);</span><br><span class="line">    </span><br><span class="line">      </span><br><span class="line">      </span><br><span class="line">      metodChannel<span class="operator">?</span>.setMethodCallHandler &#123;(call:<span class="type">FlutterMethodCall</span>, result: <span class="keyword">@escaping</span> <span class="type">FlutterResult</span>) <span class="keyword">in</span></span><br><span class="line">          <span class="keyword">if</span> (call.method <span class="operator">==</span> <span class="string">&quot;pictureMethod&quot;</span>)&#123;</span><br><span class="line">              <span class="keyword">let</span> pickVC: <span class="type">UIImagePickerController</span> <span class="operator">=</span> <span class="type">UIImagePickerController</span>.<span class="keyword">init</span>();</span><br><span class="line">              pickVC.delegate <span class="operator">=</span> <span class="keyword">self</span>;</span><br><span class="line">              <span class="keyword">self</span>.vc<span class="operator">?</span>.present(pickVC, animated: <span class="literal">true</span>, completion: <span class="literal">nil</span>);</span><br><span class="line">              </span><br><span class="line">              </span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="type">GeneratedPluginRegistrant</span>.register(with: <span class="keyword">self</span>)</span><br></pre></td></tr></table></figure>
+<p>我们在代理中实现获取照片路径通过invoke进行回调。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">func <span class="title function_">imagePickerController</span>(<span class="params">_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]</span>) &#123;</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        picker .<span class="title function_">dismiss</span>(<span class="params">animated: <span class="literal">true</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">            </span><br><span class="line"></span><br><span class="line">            <span class="keyword">let</span> <span class="title class_">Str</span>:<span class="variable constant_">NSURL</span> = info[<span class="title class_">UIImagePickerController</span>.<span class="title class_">InfoKey</span>(<span class="attr">rawValue</span>: <span class="string">&quot;UIImagePickerControllerImageURL&quot;</span>)] <span class="keyword">as</span>! <span class="variable constant_">NSURL</span>;</span><br><span class="line"></span><br><span class="line">            </span><br><span class="line"></span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">            self.<span class="property">metodChannel</span>?.<span class="title function_">invokeMethod</span>(<span class="string">&quot;imagePath&quot;</span>, <span class="attr">arguments</span>: <span class="title class_">Str</span>.<span class="property">absoluteString</span>);</span><br><span class="line"></span><br><span class="line">            </span><br><span class="line"></span><br><span class="line">            </span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="title function_">print</span>(info);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-2-android中调用"><a href="#4-2-android中调用" class="headerlink" title="4.2 android中调用"></a>4.2 android中调用</h2><p>我们在android中我们MainActivity文件中注册我们的交互事件<br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b738a1c9a34642f1ac4383daefabf869~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>初始化路由  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">private val flutterEngine = <span class="title class_">FlutterEngine</span>(context)</span><br><span class="line">private val eventChannel = <span class="title class_">EventChannel</span>(flutterEngine.<span class="property">dartExecutor</span>.<span class="property">binaryMessenger</span>, <span class="string">&quot;mall.event.channel&quot;</span>)</span><br><span class="line">private val methodChannel = <span class="title class_">MethodChannel</span>(flutterEngine.<span class="property">dartExecutor</span>.<span class="property">binaryMessenger</span>, <span class="string">&quot;mall.method.channel&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>注册</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">FlutterEngineCache</span>.<span class="title function_">getInstance</span>().<span class="title function_">put</span>(initRoute.<span class="property">name</span>, flutterEngine)</span><br></pre></td></tr></table></figure>
+<p>回调  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">methodChannel.setMethodCallHandler &#123; call, result -&gt;</span><br><span class="line">    when (call.method) &#123;</span><br><span class="line">        &quot;mall.method.pay&quot; -&gt; &#123;</span><br><span class="line">            val map = call.arguments as Map&lt;*, *&gt;</span><br><span class="line">            val orderId = map[&quot;orderId&quot;] as Int // 订单id</span><br><span class="line">            val token = map[&quot;token&quot;] as String // token</span><br><span class="line">            val type = map[&quot;payType&quot;] as Int // 支付方式, 1 微信</span><br><span class="line">            mockPay(type, token, orderId, result)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-3-小结"><a href="#4-3-小结" class="headerlink" title="4.3 小结"></a>4.3 小结</h2><p>通常对于上述的一些原生交互，通常我们倒入一些三方的image_picke等，按照三方说明即可进行交互。</p>
+<h1 id="5-任务说明"><a href="#5-任务说明" class="headerlink" title="5. 任务说明"></a>5. 任务说明</h1><p>我们想到的效果，既能让flutter可以作为一些页面UI嵌入式原生中，又可以作为独立的app在各个平台上使用因此我们需要做的事如下：  </p>
+<ol>
+<li>配置环境 ，比如基本的一些宏定义，字体，开发环境等  </li>
+<li>资源图片  </li>
+<li>存储  </li>
+<li>网络请求等  </li>
+<li>展示基本UI以及对应的组合功能实现  </li>
+<li>路由配置，导航跳转等  </li>
+<li>原生交互，自定义通信。  </li>
+<li>开源常用三方组件集成，比如图片浏览器，网络请求组件等  </li>
+<li>商业上三方组件集成，比如支付，三方登录分享，融云等  </li>
+<li>flutter嵌入原生客户端。<br>。。。未完待续</li>
+</ol>
+<h2 id="playlist"><a href="#playlist" class="headerlink" title="playlist:"></a>playlist:</h2><pre><code>name: Where are you
+artist: AniFace
+url: &quot;//music.163.com/song/media/outer/url?id=453843751.mp3&quot;
+cover: &quot;//p1.music.126.net/AUfXMljLBgB3PBV731IzRg==/109951162857118370.jpg?param=130y130&quot;
+</code></pre>
+<ul>
+<li> name: END THEME<br> artist: 天門<br> url: “<a target="_blank" rel="noopener" href="http://music.163.com/song/media/outer/url?id=528306.mp3&quot;">http://music.163.com/song/media/outer/url?id=528306.mp3&quot;</a><br> cover: “&#x2F;&#x2F;p1.music.126.net&#x2F;1sw_ptPeI_GNm58VBW1udQ&#x3D;&#x3D;&#x2F;2504687488135369.jpg?param&#x3D;130y130”</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/06/02/Flutter%E6%A8%A1%E6%9D%BF%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/" data-id="cl7ub3hxu00016rbc38zdc6hn" class="article-share-link">
+        分享
+      </a>
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/" rel="tag">...</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%87%E7%AB%A0%E6%A0%87%E7%AD%BE1/" rel="tag">文章标签1</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%87%E7%AB%A0%E6%A0%87%E7%AD%BE2/" rel="tag">文章标签2</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2022/09/05/hello-world/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      Hello World
+      
+    </div>
+  </a>
+  
+  
+</nav>
+
+  
+
+  
+  
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>潜水的鱼的博客 &copy; 2022</li>
+      
+        <li>
+          
+            <a href="https://beian.miit.gov.cn/" target="_blank"></a>
+            
+        </li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>theme  <a target="_blank" rel="noopener" href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+    <p><ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt tooltip" data-tooltip="UV"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark tooltip" data-tooltip="PV"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul></p>
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="潜水的鱼的博客"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">Home</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">About</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="fe fe-feed"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
